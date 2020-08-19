@@ -36,9 +36,13 @@ class Firebase {
     }
 
     isInitialized() {
-        return new Promise(resolve =>{
+        return new Promise(resolve => {
             app.auth().onAuthStateChanged(resolve);
         });
+    }
+
+    getCurrent() {
+        return app.auth().currentUser && app.auth().currentUser.email
     }
 }
 
