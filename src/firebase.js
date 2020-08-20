@@ -27,11 +27,15 @@ class Firebase {
         return app.auth().signInWithEmailAndPassword(email, password);
     }
 
+    logout() {
+        return app.auth().signOut();
+    }
+
     async register(nome, email, password) {
         await app.auth().createUserWithEmailAndPassword(email, password);
         const uid = app.auth().currentUser.uid;
 
-        return app.database().ref('usuarios').child(uid).set({ nome: nome });
+        return app.database().ref('usuarios').child(uid).set({ nome: nome, email: email, password: password });
 
     }
 
@@ -44,6 +48,13 @@ class Firebase {
     getCurrent() {
         return app.auth().currentUser && app.auth().currentUser.email
     }
-}
 
+
+    async getUser() {
+        if (!app.auth().currentUser) {
+            return null;
+        }
+        return app.auth().currentUser;
+    }
+}
 export default new Firebase();
